@@ -1518,7 +1518,9 @@ int send_the_mail(char *from,char *to,char *cc,char *bcc,char *sub,
 
     if (g_do_ssl) /* smtp.gmail:465 supports it for example */
     {
-        turn_on_raw_ssl(sfd);
+        rc = turn_on_raw_ssl(sfd);
+        if(rc < 0)
+            goto cleanup;
     }
 
     /* read greeting */
@@ -1541,6 +1543,9 @@ int send_the_mail(char *from,char *to,char *cc,char *bcc,char *sub,
                /* send HELO again */
                 say_helo(helo_domain);
             }
+            
+            if(rc < 0)
+                goto cleanup;
         }
     }
 
