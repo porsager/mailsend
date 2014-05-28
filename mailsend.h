@@ -152,6 +152,7 @@ EXTERN int  g_connect_timeout;
 EXTERN int  g_wait_for_cr;
 EXTERN int  g_do_ssl;
 EXTERN int  g_do_starttls;
+EXTERN int  g_verify_certificate;
 EXTERN int  g_quiet;
 EXTERN int  g_do_auth;
 EXTERN int  g_esmtp;

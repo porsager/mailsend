@@ -69,6 +69,7 @@ static void usage(void)
 "  -rrr email_address    - request read receipts to this address",
 "  -ssl                  - SMTP over SSL",
 "  -starttls             - use STARTTLS if the server supports it",
+"  -verify-certificate   - verify server certificate with the Systems root CA",
 "  -auth                 - try CRAM-MD5,LOGIN,PLAIN in that order",
 "  -auth-cram-md5        - use AUTH CRAM-MD5 authentication",
 "  -auth-plain           - use AUTH PLAIN authentication",
@@ -231,6 +232,7 @@ int main(int argc,char **argv)
     g_auth_login=0;
     g_do_ssl=0;
     g_do_starttls=0;
+    g_verify_certificate=0;
     g_log_fp = NULL;
     g_show_attachment_in_log = 0;
     g_use_protocol = MSOCK_USE_AUTO; /* detect IPv4 or IPv6 */
@@ -944,6 +946,17 @@ int main(int argc,char **argv)
                     g_do_starttls=1;
 #else
                     (void) fprintf(stderr,"Error: '-starttls' not available, not compiled with OpenSSL\n");
+                    rc = 1;
+                    goto ExitProcessing;
+                    
+#endif /* HAVE_OPENSSL */
+                }
+                else if (strncmp("verify-certificate",option+1,3) == 0)
+                {
+#ifdef HAVE_OPENSSL
+                    g_verify_certificate=1;
+#else
+                    (void) fprintf(stderr,"Error: '-verify-certificate' not available, not compiled with OpenSSL\n");
                     rc = 1;
                     goto ExitProcessing;
                     
