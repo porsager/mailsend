@@ -951,17 +951,6 @@ int main(int argc,char **argv)
                     
 #endif /* HAVE_OPENSSL */
                 }
-                else if (strncmp("verify-certificate",option+1,3) == 0)
-                {
-#ifdef HAVE_OPENSSL
-                    g_verify_certificate=1;
-#else
-                    (void) fprintf(stderr,"Error: '-verify-certificate' not available, not compiled with OpenSSL\n");
-                    rc = 1;
-                    goto ExitProcessing;
-                    
-#endif /* HAVE_OPENSSL */
-                }
                 else if (strncmp("show-attach", option + 1, 9) == 0)
                 {
                     g_show_attachment_in_log = 1;
@@ -1034,7 +1023,18 @@ int main(int argc,char **argv)
 
             case 'v':
             {
-                if (strncmp("verbose",option+1,1) == 0)
+                if (strncmp("verify-certificate",option+1,10) == 0)
+                {
+#ifdef HAVE_OPENSSL
+                    g_verify_certificate=1;
+#else
+                    (void) fprintf(stderr,"Error: '-verify-certificate' not available, not compiled with OpenSSL\n");
+                    rc = 1;
+                    goto ExitProcessing;
+                    
+#endif /* HAVE_OPENSSL */
+                }
+                else if (strncmp("verbose",option+1,1) == 0)
                 {
                     if (*option == '-')
                     {

@@ -198,7 +198,9 @@ int smtp_start_tls(int sfd)
                 errorMsg("Certificate verification error: %ld\n", rc);
                 ERR_print_errors_fp(stderr);
                 return(-1);
-            }   
+            } else {
+                (void) fprintf(stdout,"Certificate verified!\n");
+            }
         }
 
         /* tell msock everything is ssl after that */
@@ -1405,15 +1407,17 @@ static int turn_on_raw_ssl(SOCKET sfd)
         }
         print_cert_info(ssl);
 
+        (void) fprintf(stdout,"Should verify certificate: %ld\n",g_verify_certificate);
         if(g_verify_certificate) {
             rc = SSL_get_verify_result(ssl);
+            (void) fprintf(stdout,"Verify certificate result: %ld\n",rc);
             if(rc != X509_V_OK) {
                 errorMsg("Certificate verification error: %ld\n", rc);
                 ERR_print_errors_fp(stderr);
                 return(-1);
             }
         }
-        
+
         /* tell msock everything is ssl after that */
         msock_turn_ssl_on();
         rc=0;
