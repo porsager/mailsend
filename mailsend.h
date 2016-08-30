@@ -41,7 +41,7 @@
 
 #define MFL __FILE__,__LINE__
 
-#define MAILSEND_VERSION    "@(#) mailsend v1.17b15"
+#define MAILSEND_VERSION    "@(#) mailsend v1.19"
 #define MAILSEND_PROG       "mailsend"
 #define MAILSEND_AUTHOR     "muquit@muquit.com"
 #define MAILSEND_URL        "http://www.muquit.com/"
@@ -61,6 +61,7 @@
 #define FILE_TYPE_BINARY    0x00000004
 
 #define DEFAULT_CONNECT_TIMEOUT   5 /* seconds */
+#define DEFAULT_READ_TIMEOUT      5 /* seconds */
 
 
 #ifdef EXTERN
@@ -149,6 +150,7 @@ do \
 
 EXTERN int  g_verbose;
 EXTERN int  g_connect_timeout;
+EXTERN int  g_read_timeout;
 EXTERN int  g_wait_for_cr;
 EXTERN int  g_do_ssl;
 EXTERN int  g_do_starttls;
@@ -265,7 +267,7 @@ int         show_smtp_info(char *smtp_server,int port,char *domain);
 int         send_the_mail(char *from,char *to,char *cc,char *bcc,char *sub,
                      char *smtp_server,int smtp_port,char *helo_domain,
                      char *attach_file,char *txt_msg_file,char *the_msg,
-                     int is_mime,char *rrr,char *rt,int add_dateh);
+                     int is_mime,char *rrr,char *rt,int add_dateh,char* return_path_addr);
 TheMail     *newTheMail(void);
 void        errorMsg(char *format,...);
 void        showVerbose(char *format,...);
